@@ -2,7 +2,6 @@ package exec.service;
 
 
 import exec.models.Person;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -18,5 +17,5 @@ public interface PersonService {
 
     Person findPersonByNameAndSurname(String nameOfPerson, String surnameOfPerson);
 
-    ResponseEntity deletePersonByFIO(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson);
+    void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson);
 }

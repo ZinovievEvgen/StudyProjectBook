@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,12 +22,11 @@ public class BookAgregatorServiceImpl implements BookAgregatorService {
     PersonService personService;
 
 
-    SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSXXX");
+    //SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSXXX");
 
     @Override
-    public List<BookAgregator> createBookAgregator(BookAgregator bookAgregator, Date date) {
+    public List<BookAgregator> createBookAgregator(BookAgregator bookAgregator) {
 
-        bookAgregator.setDateToGiveBook(formatForDateNow.format(date));
         bookAgregatorList.add(bookAgregator);
         logger.info(String.format("Add bookAgregator%s", bookAgregator));
         return bookAgregatorList;

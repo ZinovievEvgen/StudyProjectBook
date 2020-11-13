@@ -37,9 +37,10 @@ public class PersonController {
     }
 
     @DeleteMapping("/delete")
-    public void deletePerson(@RequestParam(value = "name") String nameOfPerson,
-                             @RequestParam(value = "surname") String surnameOfPerson,
-                             @RequestParam(value = "middle") String middleNameOfPerson) {
-        personService.deletePersonByFIO(nameOfPerson, surnameOfPerson, middleNameOfPerson);
+    public ResponseEntity deletePerson(@RequestParam(value = "name") String nameOfPerson,
+                                       @RequestParam(value = "surname") String surnameOfPerson,
+                                       @RequestParam(value = "middle") String middleNameOfPerson) {
+        personService.deletePersonByFullName(nameOfPerson, surnameOfPerson, middleNameOfPerson);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

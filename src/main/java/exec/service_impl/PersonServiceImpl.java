@@ -59,16 +59,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public ResponseEntity deletePersonByFIO(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
+    public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
         Person newDelPerson = new Person();
-        for (int i = 0; i < personList.size(); i++) {
-            if (personList.get(i).getNameOfPerson().equals(nameOfPerson)
-                    && personList.get(i).getSurnameOfPerson().equals(surnameOfPerson)
-                    && personList.get(i).getMiddleNameOfPerson().equals(middleNameOfPerson)) {
-                newDelPerson = personList.get(i);
+        for (Person aPersonList : personList) {
+            if (aPersonList.getNameOfPerson().equals(nameOfPerson)
+                    && aPersonList.getSurnameOfPerson().equals(surnameOfPerson)
+                    && aPersonList.getMiddleNameOfPerson().equals(middleNameOfPerson)) {
+                newDelPerson = aPersonList;
             }
         }
         personList.remove(newDelPerson);
-        return ResponseEntity.ok().build();
+        logger.info("Удаление прошло успешнно. Удалена запись с id = " + newDelPerson.getIdOfPerson());
     }
 }

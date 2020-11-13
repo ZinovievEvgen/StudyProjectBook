@@ -1,6 +1,9 @@
 package exec.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 /**
  * Слой сущностей БД (Model)
@@ -10,7 +13,10 @@ public class BookAgregator implements Serializable {
 
     private Long idOfBookAgregator;
     private Person person;
-    private String dateToGiveBook;
+    private Book book;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSXXX")
+    //yyyy-MM-dd@HH:mm:ss.SSSZ
+    private ZonedDateTime dateToGiveBook;
 
     public BookAgregator() {
     }
@@ -23,11 +29,11 @@ public class BookAgregator implements Serializable {
         this.idOfBookAgregator = idOfBookAgregator;
     }
 
-    public String getDateToGiveBook() {
+    public ZonedDateTime getDateToGiveBook() {
         return dateToGiveBook;
     }
 
-    public void setDateToGiveBook(String dateToGiveBook) {
+    public void setDateToGiveBook(ZonedDateTime dateToGiveBook) {
         this.dateToGiveBook = dateToGiveBook;
     }
 
@@ -35,38 +41,16 @@ public class BookAgregator implements Serializable {
         return person;
     }
 
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
     public void setPerson(Person person) {
         this.person = person;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        BookAgregator that = (BookAgregator) o;
-
-        if (idOfBookAgregator != null ? !idOfBookAgregator.equals(that.idOfBookAgregator) : that.idOfBookAgregator != null)
-            return false;
-        if (person != null ? !person.equals(that.person) : that.person != null) return false;
-        return dateToGiveBook != null ? dateToGiveBook.equals(that.dateToGiveBook) : that.dateToGiveBook == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idOfBookAgregator != null ? idOfBookAgregator.hashCode() : 0;
-        result = 31 * result + (person != null ? person.hashCode() : 0);
-        result = 31 * result + (dateToGiveBook != null ? dateToGiveBook.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "BookAgregator{" +
-                "idOfBookAgregator=" + idOfBookAgregator +
-                ", person=" + person +
-                ", dateToGiveBook='" + dateToGiveBook + '\'' +
-                '}';
-    }
 }

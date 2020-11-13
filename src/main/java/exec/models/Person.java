@@ -14,8 +14,6 @@ public class Person implements Serializable {
     private String surnameOfPerson;
     private String middleNameOfPerson;
 
-    private List<Book> booksOfPerson;
-
     private String dateOfBirthPerson;
 
     public Person() {
@@ -67,14 +65,6 @@ public class Person implements Serializable {
 
     public void setNameOfPerson(String nameOfPerson) {
         this.nameOfPerson = nameOfPerson;
-    }
-
-    public List<Book> getBooksOfPerson() {
-        return booksOfPerson;
-    }
-
-    public void setBooksOfPerson(List<Book> booksOfPerson) {
-        this.booksOfPerson = booksOfPerson;
     }
 
     @Override

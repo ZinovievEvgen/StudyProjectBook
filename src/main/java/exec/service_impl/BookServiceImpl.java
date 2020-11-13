@@ -46,15 +46,27 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseEntity deleteBookByAuthorAndTitle(String author, String title) {
+    public Book findBookByAuthorAndTitle(String author, String title) {
+        Book newBook = new Book();
+        for (Book aBookList : bookList) {
+            if (aBookList.getAuthorOfBook().equals(author)
+                    && aBookList.getTitleOfBook().equals(title)) {
+                newBook = aBookList;
+            }
+        }
+        return newBook;
+    }
+
+    @Override
+    public void deleteBookByAuthorAndTitle(String author, String title) {
         Book newDelBook = new Book();
-        for (int i = 0; i < bookList.size(); i++) {
-            if (bookList.get(i).getAuthorOfBook().equals(author)
-                    && bookList.get(i).getTitleOfBook().equals(title)) {
-                newDelBook = bookList.get(i);
+        for (Book aBookList : bookList) {
+            if (aBookList.getAuthorOfBook().equals(author)
+                    && aBookList.getTitleOfBook().equals(title)) {
+                newDelBook = aBookList;
             }
         }
         bookList.remove(newDelBook);
-        return ResponseEntity.ok().build();
+        logger.info("Удаление прошло успешнно. Удалена запись с id = " + newDelBook.getIdOfBook());
     }
 }

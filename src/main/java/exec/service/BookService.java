@@ -2,7 +2,6 @@ package exec.service;
 
 
 import exec.models.Book;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -16,5 +15,7 @@ public interface BookService {
 
     List<Book> findBookByAuthor(String author);
 
-    ResponseEntity deleteBookByAuthorAndTitle(String author, String title);
+    Book findBookByAuthorAndTitle(String author, String Title);
+
+    void deleteBookByAuthorAndTitle(String author, String title);
 }
