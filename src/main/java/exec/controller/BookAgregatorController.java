@@ -30,11 +30,12 @@ public class BookAgregatorController {
     private ZonedDateTime now = ZonedDateTime.now();
 
     @PostMapping(value = "/create")
-    public List<BookAgregator> createBookAgregator(@RequestBody BookAgregator bookAgregator,
-                                                   @RequestParam(value = "surname") String surnameOfPerson,
+    public List<BookAgregator> createBookAgregator(@RequestParam(value = "surname") String surnameOfPerson,
                                                    @RequestParam(value = "name") String nameOfPerson,
                                                    @RequestParam(value = "author") String authorOfBook,
                                                    @RequestParam(value = "title") String titleOfBook) {
+
+        BookAgregator bookAgregator = new BookAgregator();
 
         bookAgregator.setBook(bookService.findBookByAuthorAndTitle(authorOfBook, titleOfBook));
 

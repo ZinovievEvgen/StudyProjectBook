@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
  */
 public class BookAgregator implements Serializable {
 
-    private Long idOfBookAgregator;
     private Person person;
     private Book book;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSXXX")
@@ -19,14 +18,6 @@ public class BookAgregator implements Serializable {
     private ZonedDateTime dateToGiveBook;
 
     public BookAgregator() {
-    }
-
-    public Long getIdOfBookAgregator() {
-        return idOfBookAgregator;
-    }
-
-    public void setIdOfBookAgregator(Long idOfBookAgregator) {
-        this.idOfBookAgregator = idOfBookAgregator;
     }
 
     public ZonedDateTime getDateToGiveBook() {
