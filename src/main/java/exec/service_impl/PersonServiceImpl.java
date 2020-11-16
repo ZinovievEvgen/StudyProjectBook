@@ -3,83 +3,40 @@ package exec.service_impl;
 
 import exec.models.Person;
 import exec.service.PersonService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class PersonServiceImpl implements PersonService {
-
-    private List<Person> personList = new ArrayList<>();
-    private Logger logger = LoggerFactory.getLogger(PersonServiceImpl.class);
-
     @Override
     public List<Person> createPerson(Person person) {
-        personList.add(person);
-        logger.info(String.format("Add person%s", person));
-        return personList;
+        return null;
     }
 
     @Override
     public List<Person> getPersons() {
-        return personList;
+        return null;
     }
 
     @Override
     public Person getPersonById(long id) {
-        Person resultPerson;
-        resultPerson = personList.get((int) id);
-        return resultPerson;
+        return null;
     }
 
     @Override
     public List<Person> findPersonByName(String name) {
-        return personList.stream()
-                .filter(person -> name.equals(person.getNameOfPerson()))
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public Person findPersonByNameAndSurname(String nameOfPerson, String surnameOfPerson) {
-
-        /* old govnokodec by SaiDHazzarD
-        Person newPerson = new Person();
-        for (int i = 0; i < personList.size(); i++) {
-            if (personList.get(i).getNameOfPerson().equals(nameOfPerson)
-                    && personList.get(i).getSurnameOfPerson().equals(surnameOfPerson)) {
-                newPerson = personList.get(i);
-            }
-        }
-        return newPerson;*/
-
-        return personList.stream().filter(person -> nameOfPerson.equals(person.getNameOfPerson()) && surnameOfPerson.equals(person.getSurnameOfPerson()))
-                .findAny()
-                .orElse(null);
+        return null;
     }
 
     @Override
     public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
-        Person newDelPerson = new Person();
 
-        /* old govnokodec by SaiDHazzarD
-            for (Person aPersonList : personList) {
-            if (aPersonList.getNameOfPerson().equals(nameOfPerson)
-                    && aPersonList.getSurnameOfPerson().equals(surnameOfPerson)
-                    && aPersonList.getMiddleNameOfPerson().equals(middleNameOfPerson)) {
-                newDelPerson = aPersonList;
-            }
-        }*/
-        newDelPerson = personList.stream().filter(person -> nameOfPerson.equals(person.getNameOfPerson())
-                && surnameOfPerson.equals(person.getSurnameOfPerson()) && middleNameOfPerson.equals(person.getMiddleNameOfPerson()))
-                .findAny()
-                .orElse(null);
-        personList.remove(newDelPerson);
-        logger.info("Удаление прошло успешнно. Удалена запись с id = " + newDelPerson.getIdOfPerson());
     }
 }
