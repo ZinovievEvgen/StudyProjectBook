@@ -48,6 +48,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findPersonByNameAndSurname(String nameOfPerson, String surnameOfPerson) {
 
+        /* old govnokodec by SaiDHazzarD
         Person newPerson = new Person();
         for (int i = 0; i < personList.size(); i++) {
             if (personList.get(i).getNameOfPerson().equals(nameOfPerson)
@@ -55,19 +56,29 @@ public class PersonServiceImpl implements PersonService {
                 newPerson = personList.get(i);
             }
         }
-        return newPerson;
+        return newPerson;*/
+
+        return personList.stream().filter(person -> nameOfPerson.equals(person.getNameOfPerson()) && surnameOfPerson.equals(person.getSurnameOfPerson()))
+                .findAny()
+                .orElse(null);
     }
 
     @Override
     public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
         Person newDelPerson = new Person();
-        for (Person aPersonList : personList) {
+
+        /* old govnokodec by SaiDHazzarD
+            for (Person aPersonList : personList) {
             if (aPersonList.getNameOfPerson().equals(nameOfPerson)
                     && aPersonList.getSurnameOfPerson().equals(surnameOfPerson)
                     && aPersonList.getMiddleNameOfPerson().equals(middleNameOfPerson)) {
                 newDelPerson = aPersonList;
             }
-        }
+        }*/
+        newDelPerson = personList.stream().filter(person -> nameOfPerson.equals(person.getNameOfPerson())
+                && surnameOfPerson.equals(person.getSurnameOfPerson()) && middleNameOfPerson.equals(person.getMiddleNameOfPerson()))
+                .findAny()
+                .orElse(null);
         personList.remove(newDelPerson);
         logger.info("Удаление прошло успешнно. Удалена запись с id = " + newDelPerson.getIdOfPerson());
     }

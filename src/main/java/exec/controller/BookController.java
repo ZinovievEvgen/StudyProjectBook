@@ -26,7 +26,11 @@ public class BookController {
         return bookService.findBookByAuthor(author);
     }
 
-
+    @GetMapping("/get-info")
+    public Book findBookByAuthorAndTitle(@RequestParam(value = "author") String author,
+                                         @RequestParam(value = "title") String title) {
+        return bookService.findBookByAuthorAndTitle(author, title);
+    }
 
     @GetMapping("/allBooks")
     public List<Book> getBooks() {
