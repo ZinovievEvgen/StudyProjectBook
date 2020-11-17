@@ -1,21 +1,28 @@
 package exec.service;
 
 
+import exec.models.Book;
 import exec.models.Person;
 
 import java.util.List;
 
 public interface PersonService {
 
-    List<Person> createPerson(Person person);
+    Person createPerson(Person person);
+
+    Person updatePerson(Person person);
+
+    void deletePersonById(Long id);
+
+    void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson);
 
     List<Person> getPersons();
 
     Person getPersonById(long id);
 
-    List <Person> findPersonByName(String name);
+    List<Book> getBookForPerson(Long id);
 
-    Person findPersonByNameAndSurname(String nameOfPerson, String surnameOfPerson);
+    Person addBookOnListBookForPerson(Book book);
 
-    void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson);
+    Person deleteBookOnListBookForPerson(Book book);
 }

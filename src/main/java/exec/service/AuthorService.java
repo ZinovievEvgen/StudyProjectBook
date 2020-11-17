@@ -1,18 +1,19 @@
 package exec.service;
 
 import exec.models.Author;
+import exec.models.Book;
 
 import java.util.List;
 
 public interface AuthorService {
 
-    Author getAuthorById(Long id);
-
-    void addAuthor(Author author);
-
     List<Author> getAllAuthor();
+
+    List<Book> getListOfBookForAuthor(Author author);
+
+    Author createAuthor(Author author);
 
     void deleteAuthorById(Long id);
 
-    void updateAuthor(Author author);
+    Author getAuthorById(Long id);
 }

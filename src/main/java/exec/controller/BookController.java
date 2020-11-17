@@ -16,7 +16,40 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/get/{id}")
+    public Book createBook(Book book) {
+        return null;
+    }
+
+    public void deleteBookById(Long id) {
+
+    }
+
+    public void addGenreForBook(Book book) {
+
+    }
+
+    public void deleteGenreForBook(Book book) {
+
+    }
+
+    public List<Book> getAllBooks() {
+        return null;
+    }
+
+    public List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor) {
+        return null;
+    }
+
+    public List<Book> getAllBooksForGenre(Long idOfDimGenre) {
+        return null;
+    }
+
+    public Book getBookById(long id) {
+        return null;
+    }
+
+
+    /*@GetMapping("/get/{id}")
     public Book getBookById(@PathVariable long id) {
         return bookService.getBookById(id);
     }
@@ -47,5 +80,5 @@ public class BookController {
                                      @RequestParam(value = "title") String titleOfBook) {
         bookService.deleteBookByAuthorAndTitle(authorOfBook, titleOfBook);
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
+    }*/
 }

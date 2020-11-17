@@ -7,15 +7,19 @@ import java.util.List;
 
 public interface BookService {
 
-    List<Book> createBook(Book book);
+    Book createBook(Book book);
 
-    List<Book> getBooks();
+    void deleteBookById(Long id);
+
+    void addGenreForBook(Book book);
+
+    void deleteGenreForBook(Book book);
+
+    List<Book> getAllBooks();
+
+    List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor);
+
+    List<Book> getAllBooksForGenre(Long idOfDimGenre);
 
     Book getBookById(long id);
-
-    List<Book> findBookByAuthor(String author);
-
-    Book findBookByAuthorAndTitle(String author, String Title);
-
-    void deleteBookByAuthorAndTitle(String author, String title);
 }

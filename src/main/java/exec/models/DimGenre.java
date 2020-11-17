@@ -15,7 +15,7 @@ public class DimGenre {
     @SequenceGenerator(name = "sequenceGenerator")
     private long idOfDimGenre;
 
-    @Column(name = "genreName")
+    @Column(name = "genreName", nullable = false)
     private String genreName;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Book.class)
@@ -26,5 +26,33 @@ public class DimGenre {
     private List<Book> books;
 
     public DimGenre() {
+    }
+
+    public DimGenre(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public long getIdOfDimGenre() {
+        return idOfDimGenre;
+    }
+
+    public void setIdOfDimGenre(long idOfDimGenre) {
+        this.idOfDimGenre = idOfDimGenre;
+    }
+
+    public String getGenreName() {
+        return genreName;
+    }
+
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

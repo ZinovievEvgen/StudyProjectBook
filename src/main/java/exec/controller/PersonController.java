@@ -1,5 +1,6 @@
 package exec.controller;
 
+import exec.models.Book;
 import exec.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,31 +17,46 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @GetMapping("/get/{id}")
-    public Person getPersonById(@PathVariable long id) {
-        return personService.getPersonById(id);
+    public Person createPerson(Person person) {
+        return null;
     }
 
-    @GetMapping("/get")
-    public List<Person> findPersonByName(@RequestParam(value = "name") String name) {
-        return personService.findPersonByName(name);
+    public Person updatePerson(Person person) {
+        return null;
     }
 
-    @GetMapping("/allPersons")
-    public List<Person> getPersons() {
-        return personService.getPersons();
-    }
-
-    @PostMapping(value = "/create")
-    public List<Person> createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity deletePerson(@RequestParam(value = "name") String nameOfPerson,
-                                       @RequestParam(value = "surname") String surnameOfPerson,
-                                       @RequestParam(value = "middle") String middleNameOfPerson) {
-        personService.deletePersonByFullName(nameOfPerson, surnameOfPerson, middleNameOfPerson);
+    public ResponseEntity deletePersonById(Long id) {
+        // ok - exeption (if id empty)
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    public ResponseEntity deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
+        {
+            // ok - exeption (if id empty)
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+    }
+
+    public List<Person> getPersons() {
+        return null;
+    }
+
+    public Person getPersonById(long id) {
+        return null;
+    }
+
+    public List<Book> getBookForPerson(Long id) {
+        //input book-author-genre
+        return null;
+    }
+
+    public Person addBookOnListBookForPerson(Book book) {
+        // input person + books
+        return null;
+    }
+
+    public Person deleteBookOnListBookForPerson(Book book) {
+        // input person + books
+        return null;
     }
 }
