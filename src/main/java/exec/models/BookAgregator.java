@@ -14,7 +14,6 @@ public class BookAgregator implements Serializable {
     private Person person;
     private Book book;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSXXX")
-    //yyyy-MM-dd@HH:mm:ss.SSSZ
     private ZonedDateTime dateToGiveBook;
 
     public BookAgregator() {

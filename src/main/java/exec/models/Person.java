@@ -1,7 +1,6 @@
 package exec.models;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Слой сущностей БД (Model)

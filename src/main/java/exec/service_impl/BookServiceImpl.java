@@ -46,13 +46,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book findBookByAuthorAndTitle(String author, String title) {
-        /*  old govnokodec by SaiDHazzarD
-            for (Book aBookList : bookList) {
-            if (aBookList.getAuthorOfBook().equals(author)
-                    && aBookList.getTitleOfBook().equals(title)) {
-                newBook = aBookList;
-            }
-        }*/
         return bookList.stream().filter(book -> author.equals(book.getAuthorOfBook()) && title.equals(book.getTitleOfBook()))
                 .findAny()
                 .orElse(null);
@@ -61,15 +54,6 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBookByAuthorAndTitle(String author, String title) {
         Book newDelBook = new Book();
-
-        /*old govnokodec by SaiDHazzarD
-            for (Book aBookList : bookList) {
-            if (aBookList.getAuthorOfBook().equals(author)
-                    && aBookList.getTitleOfBook().equals(title)) {
-                newDelBook = aBookList;
-            }
-        }*/
-
         newDelBook = bookList.stream().filter(book -> author.equals(book.getAuthorOfBook()) && title.equals(book.getTitleOfBook()))
                 .findAny()
                 .orElse(null);

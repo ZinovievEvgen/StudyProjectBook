@@ -21,9 +21,6 @@ public class BookAgregatorServiceImpl implements BookAgregatorService {
     @Autowired
     PersonService personService;
 
-
-    //SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSXXX");
-
     @Override
     public List<BookAgregator> createBookAgregator(BookAgregator bookAgregator) {
 
