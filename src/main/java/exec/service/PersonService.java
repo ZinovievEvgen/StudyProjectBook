@@ -18,7 +18,7 @@ public interface PersonService {
 
     List<Person> getPersons();
 
-    Person getPersonById(long id);
+    Person getPersonById(Long id);
 
     List<Book> getBookForPerson(Long id);
 

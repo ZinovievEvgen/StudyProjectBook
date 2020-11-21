@@ -1,10 +1,10 @@
 package exec.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-public class Person {
-
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -30,11 +30,9 @@ public class Person {
     private String middleNameOfPerson;
 
     @Column(name = "birthDateOfPerson")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private ZonedDateTime birthDateOfPerson;
+    private LocalDate birthDateOfPerson;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Book> bookListOfPerson;
 
     public Person() {
@@ -43,6 +41,13 @@ public class Person {
     public Person(String firstNameOfPerson, String lastNameOfPerson) {
         this.firstNameOfPerson = firstNameOfPerson;
         this.lastNameOfPerson = lastNameOfPerson;
+    }
+
+    public Person(String firstNameOfPerson, String lastNameOfPerson, String middleNameOfPerson, LocalDate birthDateOfPerson) {
+        this.firstNameOfPerson = firstNameOfPerson;
+        this.lastNameOfPerson = lastNameOfPerson;
+        this.middleNameOfPerson = middleNameOfPerson;
+        this.birthDateOfPerson = birthDateOfPerson;
     }
 
     public Long getIdOfPerson() {
@@ -61,11 +66,11 @@ public class Person {
         this.bookListOfPerson = bookListOfPerson;
     }
 
-    public ZonedDateTime getBirthDateOfPerson() {
+    public LocalDate getBirthDateOfPerson() {
         return birthDateOfPerson;
     }
 
-    public void setBirthDateOfPerson(ZonedDateTime birthDateOfPerson) {
+    public void setBirthDateOfPerson(LocalDate birthDateOfPerson) {
         this.birthDateOfPerson = birthDateOfPerson;
     }
 

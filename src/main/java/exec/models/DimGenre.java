@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Слой сущностей БД (Model)
+ * класс-DimGenre: содержит информацию о жанрах книг
+ */
 @Entity
 @Table(name = "dimGenre")
 public class DimGenre {

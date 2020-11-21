@@ -3,8 +3,8 @@ package exec.service;
 
 import exec.models.DimGenre;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface DimGenreService {
 
@@ -14,5 +14,5 @@ public interface DimGenreService {
 
     DimGenre getDimGenreById(Long id);
 
-    HashMap<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList);
+    Map<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList);
 }

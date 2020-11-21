@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Слой сущностей БД (Model)
+ * класс-Author: содержит информацию об авторах книг
+ */
 @Entity
 @Table(name = "author")
 public class Author {

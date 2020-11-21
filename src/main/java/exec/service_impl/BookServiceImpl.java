@@ -1,14 +1,23 @@
 package exec.service_impl;
 
 import exec.models.Book;
+import exec.repository.BookRepository;
 import exec.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.lang.System.out;
 
 
 @Service
 public class BookServiceImpl implements BookService {
+
+
+    @Autowired
+    private BookRepository repository;
 
     // with author and genre
     @Override
@@ -19,7 +28,12 @@ public class BookServiceImpl implements BookService {
     // но только если она не у пользователя - ок, или ошибка, что книга у пользователя
     @Override
     public void deleteBookById(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            out.println(e.getMessage());
 
+        }
     }
 
     /*
@@ -38,7 +52,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAllBooks() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
@@ -54,6 +68,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(long id) {
-        return null;
+        Optional<Book> book = repository.findById(id);
+        if (book.isPresent()) {
+            return book.get();
+        } else {
+            return null;
+        }
     }
 }
