@@ -7,8 +7,11 @@ import exec.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.System.out;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -21,25 +24,47 @@ public class AuthorServiceImpl implements AuthorService {
         return repository.findAll();
     }
 
-    //автор + книги + жанры
     @Override
-    public List<Book> getListOfBookForAuthor(Author author) {
+    public List<Book> getListOfBookForAuthor(Long id) {
+        //автор + книги + жанры
+        Optional<Author> currentAuthor = repository.findById(id);
+        if (currentAuthor.isPresent()) {
+            return currentAuthor.get().getBookListOfAuthor();
+        } else return Collections.emptyList();
+    }
 
+    @Override
+    public Author createAuthorWithBooks(Author author) {
+        // с книгами или беза, втор + книги
         return null;
     }
 
-    // с книгами или беза, втор + книги
+    @Override
+    public Author updateAuthor(Long id, Author currentAuthor) {
+        return repository.findById(id).map(author -> {
+            author.setFirstNameOfAuthor(currentAuthor.getFirstNameOfAuthor());
+            author.setLastNameOfAuthor(currentAuthor.getLastNameOfAuthor());
+            author.setMiddleNameOfAuthor(currentAuthor.getMiddleNameOfAuthor());
+            author.setBookListOfAuthor(currentAuthor.getBookListOfAuthor());
+            return repository.save(author);
+        }).orElseGet(() -> {
+            currentAuthor.setIdOfAuthor(id);
+            return repository.save(currentAuthor);
+        });
+    }
+
     @Override
     public Author createAuthor(Author author) {
-        return null;
+        return repository.save(author);
     }
 
-
-    // (если только нет книг, иначе кидать ошибку с пояснением,
-    // что нельзя удалить автора пока есть его книги) - Ок или Ошибка
     @Override
     public void deleteAuthorById(Long id) {
-
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            out.println("Автор содержит записи о книгах в БД!! " + e.getMessage());
+        }
     }
 
     @Override

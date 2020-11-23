@@ -32,7 +32,7 @@ public class Person implements Serializable {
     @Column(name = "birthDateOfPerson")
     private LocalDate birthDateOfPerson;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     private List<Book> bookListOfPerson;
 
     public Person() {

@@ -12,6 +12,8 @@ public interface DimGenreService {
 
     void createDimGenre(DimGenre dimGenre);
 
+    DimGenre updatePerson(DimGenre dimGenre);
+
     DimGenre getDimGenreById(Long id);
 
     Map<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList);

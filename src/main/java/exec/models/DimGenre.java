@@ -2,6 +2,7 @@ package exec.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "dimGenre")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class DimGenre {
 
     @Id
@@ -22,7 +24,7 @@ public class DimGenre {
     @Column(name = "genreName", nullable = false)
     private String genreName;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Book.class)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookGenreLnk",
             joinColumns = {@JoinColumn(name = "genre_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})

@@ -3,11 +3,10 @@ package exec.controller;
 import exec.models.DimGenre;
 import exec.service.DimGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = {"/api/dimGenre"})
@@ -16,21 +15,23 @@ public class DimGenreController {
     @Autowired
     private DimGenreService dimGenreService;
 
+    @GetMapping("/allDimGenre")
     public List<DimGenre> getAllDimGenre() {
-        return null;
+        return dimGenreService.getAllDimGenre();
     }
 
+    @PostMapping(value = "/create")
     public void createDimGenre(DimGenre dimGenre) {
-
+        dimGenreService.createDimGenre(dimGenre);
     }
 
-    public DimGenre getDimGenreById(Long id) {
-        return null;
+    @GetMapping("/get/{id}")
+    public DimGenre getDimGenreById(@PathVariable Long id) {
+        return dimGenreService.getDimGenreById(id);
     }
 
-    //6.4.3.	Вывод статистики Жанр - количество книг
-    // (Если не любите Dto для вывода подобной информации посмотрите в сторону аннотации @Formula)
-    public HashMap<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList) {
+    @GetMapping("/getCount/{id}")
+    public Map<DimGenre, Integer> inputStatisticCountOfBookForGenre(@PathVariable Long id) {
         return null;
     }
 }

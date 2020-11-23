@@ -27,6 +27,11 @@ public class DimGenreServiceImpl implements DimGenreService {
     }
 
     @Override
+    public DimGenre updatePerson(DimGenre dimGenre) {
+        return null;
+    }
+
+    @Override
     public DimGenre getDimGenreById(Long id) {
         Optional<DimGenre> genre = repository.findById(id);
         if (genre.isPresent()) {

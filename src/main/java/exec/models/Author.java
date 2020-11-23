@@ -1,5 +1,6 @@
 package exec.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class Author {
     @Column(name = "middleNameOfAuthor")
     private String middleNameOfAuthor;
 
-    @OneToMany(mappedBy = "authorOfBook", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "authorOfBook", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Book> bookListOfAuthor;
 

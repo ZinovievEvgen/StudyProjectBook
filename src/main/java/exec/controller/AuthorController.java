@@ -4,8 +4,9 @@ import exec.models.Author;
 import exec.models.Book;
 import exec.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,23 +17,39 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
+    @GetMapping("/allAuthors")
     public List<Author> getAllAuthor() {
-        return null;
+        return authorService.getAllAuthor();
     }
 
-    public List<Book> getListOfBookForAuthor(Author author) {
-        return null;
+    @GetMapping("/getOfBookForAuthor/{id}")
+    public List<Book> getListOfBookForAuthor(@PathVariable Long id) {
+        return authorService.getListOfBookForAuthor(id);
     }
 
-    public Author createAuthor(Author author) {
-        return null;
+    @PostMapping(value = "/create")
+    public Author createAuthor(@RequestBody Author author) {
+        return authorService.createAuthor(author);
     }
 
-    public void deleteAuthorById(Long id) {
-
+    @PostMapping(value = "/createWithAttributes")
+    public Author createAuthorWithAttributes(@RequestBody Author author) {
+        return authorService.createAuthorWithBooks(author);
     }
 
-    public Author getAuthorById(Long id) {
-        return null;
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteAuthorById(@PathVariable Long id) {
+        authorService.deleteAuthorById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/get/{id}")
+    public Author getAuthorById(@PathVariable Long id) {
+        return authorService.getAuthorById(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public Author updateAuthor(Long id, Author author) {
+        return authorService.updateAuthor(id, author);
     }
 }

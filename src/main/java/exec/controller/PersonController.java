@@ -22,7 +22,9 @@ public class PersonController {
         return personService.createPerson(person);
     }
 
-    public Person updatePerson(Person person) {
+    @PutMapping(value = "/update/{id}")
+    public Person updatePerson(@RequestBody Person person, @PathVariable Long id) {
+
         return null;
     }
 
@@ -50,18 +52,18 @@ public class PersonController {
         return personService.getPersonById(id);
     }
 
-    public List<Book> getBookForPerson(Long id) {
-        //input book-author-genre
-        return null;
+    @GetMapping("/getBookForPerson/{id}")
+    public List<Book> getBookForPerson(@PathVariable Long id) {
+        return personService.getBookForPerson(id);
     }
 
+    @PostMapping(value = "/addBookForPerson")
     public Person addBookOnListBookForPerson(Book book) {
-        // input person + books
-        return null;
+        return personService.addBookOnListBookForPerson(book);
     }
 
+    @DeleteMapping("/deleteBookForPerson")
     public Person deleteBookOnListBookForPerson(Book book) {
-        // input person + books
-        return null;
+        return personService.deleteBookOnListBookForPerson(book);
     }
 }

@@ -2,6 +2,7 @@ package exec.service;
 
 
 import exec.models.Book;
+import exec.models.DimGenre;
 
 import java.util.List;
 
@@ -9,11 +10,15 @@ public interface BookService {
 
     Book createBook(Book book);
 
+    Book updateBook(Long id, Book book);
+
+    Book createBookWithAuthorAndGenre(Book book);
+
     void deleteBookById(Long id);
 
-    void addGenreForBook(Book book);
+    Book addGenreForBook(Long id, Book book) throws Exception;
 
-    void deleteGenreForBook(Book book);
+    void deleteGenreForBook(Long id, Book currentBook) throws Exception;
 
     List<Book> getAllBooks();
 
@@ -21,5 +26,5 @@ public interface BookService {
 
     List<Book> getAllBooksForGenre(Long idOfDimGenre);
 
-    Book getBookById(long id);
+    Book getBookById(Long id);
 }
