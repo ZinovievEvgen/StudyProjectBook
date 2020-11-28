@@ -1,9 +1,10 @@
 package exec.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,15 @@ import java.util.List;
  */
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long idOfBook;
 
-    @Column(name = "nameOfBook", nullable = false)
+    @NotNull
+    @Column(name = "nameOfBook")
     private String nameOfBook;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,20 +33,21 @@ public class Book {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idOfPerson")
-    @JsonBackReference
+    @JsonBackReference(value = "person-book")
     private Person person;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOfAuthor", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "idOfAuthor")
+    @JsonBackReference(value = "author-book")
     private Author authorOfBook;
 
     public Book() {
     }
 
-    public Book(String nameOfBook, Author authorOfBook) {
-        this.nameOfBook = nameOfBook;
+    public Book(@NotNull Author authorOfBook, @NotNull String nameOfBook) {
         this.authorOfBook = authorOfBook;
+        this.nameOfBook = nameOfBook;
     }
 
     public Long getIdOfBook() {

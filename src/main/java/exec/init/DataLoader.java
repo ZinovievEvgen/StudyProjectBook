@@ -23,17 +23,16 @@ public class DataLoader implements CommandLineRunner {
 
 
     private final PersonService personService;
+    private final DimGenreService dimGenreService;
     private final BookService bookService;
     private final AuthorService authorService;
-    private final DimGenreService dimGenreService;
 
 
-    public DataLoader(PersonService personService, BookService bookService,
-                      AuthorService authorService, DimGenreService dimGenreService) {
+    public DataLoader(PersonService personService, DimGenreService dimGenreService, BookService bookService, AuthorService authorService) {
         this.personService = personService;
+        this.dimGenreService = dimGenreService;
         this.bookService = bookService;
         this.authorService = authorService;
-        this.dimGenreService = dimGenreService;
     }
 
     @Override
@@ -58,53 +57,48 @@ public class DataLoader implements CommandLineRunner {
         list1.add(genre1);
 
         List<DimGenre> list2 = new ArrayList<>();
+        list2.add(genre1);
         list2.add(genre2);
 
         List<DimGenre> list3 = new ArrayList<>();
         list3.add(genre3);
 
-        Author author1 = authorService.createAuthor(new Author("Федоров", "Федор"));
-        Author author2 = authorService.createAuthor(new Author("Романов", "Роман"));
-        Author author3 = authorService.createAuthor(new Author("Павлов", "Павел"));
-        Author author4 = authorService.createAuthor(new Author("Николаев", "Николай"));
+        Author author1 = authorService.createAuthor(new Author("Федоров", "Федор", "Федорович"));
+        Author author2 = authorService.createAuthor(new Author("Романов", "Роман", "Федорович"));
+        Author author3 = authorService.createAuthor(new Author("Павлов", "Павел", "Федорович"));
+        Author author4 = authorService.createAuthor(new Author("Николаев", "Николай", "Федорович"));
+        Author author5 = authorService.createAuthor(new Author("Лермонтов", "Михаил", "Федорович"));
 
         Book book1 = new Book();
         book1.setNameOfBook("История одного прогера");
         book1.setGenres(list1);
         book1.setAuthorOfBook(author1);
-
-        List<Book> listBook1 = new ArrayList<>();
-        listBook1.add(book1);
-
         bookService.createBook(book1);
 
         Book book2 = new Book();
         book2.setNameOfBook("Туда  и обратно мистер Дюк");
         book2.setGenres(list2);
         book2.setAuthorOfBook(author2);
-
-        List<Book> listBook2 = new ArrayList<>();
-        listBook2.add(book2);
-
         bookService.createBook(book2);
+
 
         Book book3 = new Book();
         book3.setNameOfBook("ЧТО ГДЕ КУДА! JUNIOR");
         book3.setGenres(list3);
         book3.setAuthorOfBook(author3);
-
-        List<Book> listBook3 = new ArrayList<>();
-        listBook3.add(book3);
-
         bookService.createBook(book3);
 
+        Book book4 = new Book();
+        book4.setNameOfBook("Мцыри");
+        book4.setGenres(list3);
+        book4.setAuthorOfBook(author5);
+        bookService.createBook(book4);
 
         Person person1 = new Person();
         person1.setFirstNameOfPerson("Иван");
         person1.setLastNameOfPerson("Иванов");
         person1.setMiddleNameOfPerson("Иванович");
         person1.setBirthDateOfPerson(LocalDate.now());
-        person1.setBookListOfPerson(listBook1);
         personService.createPerson(person1);
 
         Person person2 = new Person();
@@ -112,7 +106,6 @@ public class DataLoader implements CommandLineRunner {
         person2.setLastNameOfPerson("Семенов");
         person2.setMiddleNameOfPerson("Семенович");
         person2.setBirthDateOfPerson(LocalDate.now());
-        person2.setBookListOfPerson(listBook2);
         personService.createPerson(person2);
 
         Person person3 = new Person();
@@ -120,7 +113,6 @@ public class DataLoader implements CommandLineRunner {
         person3.setLastNameOfPerson("Петров");
         person3.setMiddleNameOfPerson("Петрович");
         person3.setBirthDateOfPerson(LocalDate.now());
-        person3.setBookListOfPerson(listBook3);
         personService.createPerson(person3);
     }
 }

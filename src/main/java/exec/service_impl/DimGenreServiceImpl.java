@@ -6,45 +6,33 @@ import exec.service.DimGenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class DimGenreServiceImpl implements DimGenreService {
 
     @Autowired
-    private DimGenreRepository repository;
+    private DimGenreRepository dimGenreRepository;
 
     @Override
-    public List<DimGenre> getAllDimGenre() {
-        return repository.findAll();
+    public List<DimGenre> getAllGenreWithoutBook() {
+        return dimGenreRepository.findAll();
     }
 
     @Override
-    public void createDimGenre(DimGenre dimGenre) {
-        repository.save(dimGenre);
+    public DimGenre createDimGenre(DimGenre dimGenre) {
+        return dimGenreRepository.save(dimGenre);
     }
 
     @Override
-    public DimGenre updatePerson(DimGenre dimGenre) {
-        return null;
-    }
-
-    @Override
-    public DimGenre getDimGenreById(Long id) {
-        Optional<DimGenre> genre = repository.findById(id);
-        if (genre.isPresent()) {
-            return genre.get();
-        } else {
-            return null;
+    public Map<DimGenre, Long> inputStatisticCountOfBookForGenre() {
+        Map<DimGenre, Long> countMapOfBook = new HashMap<>();
+        List<DimGenre> list = dimGenreRepository.findAll();
+        for (DimGenre aList : list) {
+            countMapOfBook.put(aList, aList.getCountOfBook());
         }
-    }
-
-    //6.4.3.	Вывод статистики Жанр - количество книг
-    // (Если не любите Dto для вывода подобной информации посмотрите в сторону аннотации @Formula)
-    @Override
-    public Map<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList) {
-        return null;
+        return countMapOfBook;
     }
 }

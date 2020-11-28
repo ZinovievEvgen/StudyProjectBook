@@ -1,6 +1,7 @@
 package exec.service_impl;
 
 import exec.models.Book;
+import exec.models.DimGenre;
 import exec.repository.AuthorRepository;
 import exec.repository.BookRepository;
 import exec.repository.DimGenreRepository;
@@ -8,19 +9,16 @@ import exec.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.lang.System.out;
-
 
 @Service
 public class BookServiceImpl implements BookService {
 
-
     @Autowired
-    private BookRepository repository;
+    private BookRepository bookRepository;
 
     @Autowired
     private DimGenreRepository dimGenreRepository;
@@ -28,89 +26,76 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private AuthorRepository authorRepository;
 
-    // with author and genre
-    @Override
-    public Book createBookWithAuthorAndGenre(Book book) {
-        return null;
-    }
-
     @Override
     public Book createBook(Book book) {
-        return repository.save(book);
+        return bookRepository.save(book);
     }
 
     @Override
-    public Book updateBook(Long id, Book currentBook) {
-        return repository.findById(id).map(book -> {
-            book.setNameOfBook(currentBook.getNameOfBook());
-            book.setGenres(currentBook.getGenres());
-            book.setPerson(currentBook.getPerson());
-            book.setAuthorOfBook(currentBook.getAuthorOfBook());
-            return repository.save(book);
+    public Book createBookWithAuthorAndGenre(Book book, Long idOfAuthor, Long idOfGenre) throws Exception {
+        //книга + автор + жанр
+        book.setAuthorOfBook(authorRepository.findById(idOfAuthor).orElseThrow(Exception::new));
+        List<DimGenre> newList = new ArrayList<>();
+        newList.add(dimGenreRepository.findById(idOfGenre).orElseThrow(Exception::new));
+        book.setGenres(newList);
+        return bookRepository.save(book);
+    }
+
+
+    @Override
+    public Book updateBook(Long id, Book newBook) {
+        return bookRepository.findById(id).map(book -> {
+            book.setNameOfBook(newBook.getNameOfBook());
+            book.setPerson(newBook.getPerson());
+            book.setAuthorOfBook(newBook.getAuthorOfBook());
+            book.setGenres(newBook.getGenres());
+            return bookRepository.save(book);
         }).orElseGet(() -> {
-            currentBook.setIdOfBook(id);
-            return repository.save(currentBook);
+            newBook.setIdOfBook(id);
+            return bookRepository.save(newBook);
         });
     }
 
-    // но только если она не у пользователя - ок, или ошибка, что книга у пользователя
+    @Override
+    public List<Book> getBooks() {
+        return bookRepository.findAll();
+    }
+
     @Override
     public void deleteBookById(Long id) {
         try {
-            repository.deleteById(id);
+            bookRepository.deleteById(id);
         } catch (Exception e) {
-            out.println(e.getMessage());
-
+            System.out.println(e.getMessage());
         }
     }
 
-    /*
-    PUT с телом. На вход сущность Book или её Dto) При добавлении или удалении вы должны просто либо добавлять запись,
-    либо удалять из списка жанров. Каскадно удалять все жанры и книги с таким жанром нельзя! Книга + жанр + автор
-     */
     @Override
-    public Book addGenreForBook(Long id, Book currentBook) throws Exception {
-        return repository.findById(id).map(book -> {
-            book.setGenres(currentBook.getGenres());
-            return repository.save(book);
-        }).orElseThrow(Exception::new);
-    }
-
-    @Override
-    public void deleteGenreForBook(Long id, Book currentBook) throws Exception {
-        repository.findById(id).map(book -> {
-            book.setGenres(currentBook.getGenres());
-            return repository.save(book);
-        }).orElseThrow(Exception::new);
-    }
-
-    @Override
-    public List<Book> getAllBooks() {
-        return repository.findAll();
+    public List<Book> bookForGenre(String nameOfGenre) {
+        return bookRepository.findAll().stream().peek(
+                        book -> book.getGenres()
+                                .stream().filter(dimGenre -> nameOfGenre.equals(dimGenre.getGenreName())))
+        .collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor) {
-        return repository.findAll().stream().filter(
+        return bookRepository.findAll().stream().filter(
                 book -> book.getAuthorOfBook().getFirstNameOfAuthor().equals(firstNameOfAuthor)
-                        || book.getAuthorOfBook().getLastNameOfAuthor().equals(lastNameOfAuthor)
-                        || book.getAuthorOfBook().getMiddleNameOfAuthor().equals(middleNameOfAuthor)
+                        && book.getAuthorOfBook().getLastNameOfAuthor().equals(lastNameOfAuthor)
+                        && book.getAuthorOfBook().getMiddleNameOfAuthor().equals(middleNameOfAuthor)
         ).collect(Collectors.toList());
     }
 
-    // Книга + жанр + автор
     @Override
-    public List<Book> getAllBooksForGenre(Long idOfDimGenre) {
-        return dimGenreRepository.getOne(idOfDimGenre).getBooks();
-    }
-
-    @Override
-    public Book getBookById(Long id) {
-        Optional<Book> book = repository.findById(id);
-        if (book.isPresent()) {
-            return book.get();
-        } else {
-            return null;
-        }
+    public Book updateGenreForBook(Long id, Book currentBook) {
+        //Книга + жанр + автор
+        return bookRepository.findById(id).map(book -> {
+            book.setGenres(currentBook.getGenres());
+            return bookRepository.save(book);
+        }).orElseGet(() -> {
+            currentBook.setIdOfBook(id);
+            return bookRepository.save(currentBook);
+        });
     }
 }

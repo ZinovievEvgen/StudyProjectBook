@@ -1,88 +1,114 @@
 package exec.service_impl;
 
-
 import exec.models.Book;
 import exec.models.Person;
+import exec.repository.BookRepository;
 import exec.repository.PersonRepository;
 import exec.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.System.out;
-
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     @Autowired
-    private PersonRepository repository;
+    private PersonRepository personRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public Person createPerson(Person person) {
-        return repository.save(person);
+        return personRepository.save(person);
     }
 
     @Override
-    public Person updatePerson(Person person) {
-        return repository.save(person);
+    public Person updatePerson(Long id, Person newPerson) {
+        return personRepository.findById(id).map(person -> {
+            person.setFirstNameOfPerson(newPerson.getFirstNameOfPerson());
+            person.setLastNameOfPerson(newPerson.getLastNameOfPerson());
+            person.setMiddleNameOfPerson(newPerson.getMiddleNameOfPerson());
+            person.setBirthDateOfPerson(newPerson.getBirthDateOfPerson());
+            person.setBookListOfPerson(newPerson.getBookListOfPerson());
+            return personRepository.save(person);
+        }).orElseGet(() -> {
+            newPerson.setIdOfPerson(id);
+            return personRepository.save(newPerson);
+        });
     }
 
     @Override
     public void deletePersonById(Long id) {
         try {
-            repository.deleteById(id);
+            personRepository.deleteById(id);
         } catch (Exception e) {
-            out.println(e.getMessage());
-
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
-    public void deletePersonByFullName(String nameOfPerson, String lastNameOfPerson, String middleNameOfPerson) {
+    public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
         try {
-            Person delPerson = repository.findByFirstNameOfPersonAndLastNameOfPersonAndMiddleNameOfPerson(nameOfPerson,
-                    lastNameOfPerson, middleNameOfPerson).orElseThrow(Exception::new);
-            repository.delete(delPerson);
+            Person delPerson = personRepository.findByFirstNameOfPersonAndLastNameOfPersonAndMiddleNameOfPerson(nameOfPerson,
+                    surnameOfPerson, middleNameOfPerson).orElseThrow(Exception::new);
+            personRepository.delete(delPerson);
         } catch (Exception e) {
-            out.println(e.getMessage());
-
+            System.out.println(e.getMessage());
         }
     }
 
     @Override
     public List<Person> getPersons() {
-        return repository.findAll();
+        return personRepository.findAll();
     }
 
     @Override
-    public Person getPersonById(Long id) {
-        Optional<Person> person = repository.findById(id);
-        if (person.isPresent()) {
-            return person.get();
-        } else {
-            return null;
-        }
+    public Person getPersonById(Long id) throws Exception {
+        return personRepository.findById(id).orElseThrow(Exception::new);
     }
 
-    //input book-author-genre
     @Override
     public List<Book> getBookForPerson(Long id) {
-        return null;
+        //output: Книги - автор - жанр
+        Optional<Person> currentPerson = personRepository.findById(id);
+        if (currentPerson.isPresent()) {
+            return currentPerson.get().getBookListOfPerson();
+        } else return Collections.emptyList();
     }
 
-    // input person + books
     @Override
-    public Person addBookOnListBookForPerson(Book book) {
-        return null;
+    public Person addBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception {
+        //output: Пользователь + книги
+        return personRepository.findById(idPerson).map(person -> {
+            Book currentBook = bookRepository.findByNameOfBook(nameOfBook);
+            List<Book> updateList = person.getBookListOfPerson();
+            if (currentBook != null) {
+                updateList.add(currentBook);
+                person.setBookListOfPerson(updateList);
+                currentBook.setPerson(person);
+                bookRepository.saveAndFlush(currentBook);
+            }
+            return personRepository.save(person);
+        }).orElseThrow(Exception::new);
     }
 
-    // input person + books
     @Override
-    public Person deleteBookOnListBookForPerson(Book book) {
-        return null;
+    public Person deleteBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception {
+        // output: Пользователь + книги
+        return personRepository.findById(idPerson).map(person -> {
+            Book currentBook = bookRepository.findByNameOfBook(nameOfBook);
+            List<Book> updateList = person.getBookListOfPerson();
+            if (currentBook != null) {
+                updateList.remove(currentBook);
+                person.setBookListOfPerson(updateList);
+                currentBook.setPerson(person);
+                bookRepository.saveAndFlush(currentBook);
+            }
+            return personRepository.save(person);
+        }).orElseThrow(Exception::new);
     }
 }

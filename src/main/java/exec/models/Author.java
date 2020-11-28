@@ -1,9 +1,10 @@
 package exec.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,33 +13,37 @@ import java.util.List;
  */
 @Entity
 @Table(name = "author")
-public class Author {
+public class Author implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long idOfAuthor;
 
-    @Column(name = "firstNameOfAuthor", nullable = false)
+    @NotNull
+    @Column(name = "firstNameOfAuthor")
     private String firstNameOfAuthor;
 
-    @Column(name = "lastNameOfAuthor", nullable = false)
+    @NotNull
+    @Column(name = "lastNameOfAuthor")
     private String lastNameOfAuthor;
 
     @Column(name = "middleNameOfAuthor")
     private String middleNameOfAuthor;
 
     @OneToMany(mappedBy = "authorOfBook", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference(value = "author-book")
     private List<Book> bookListOfAuthor;
 
     public Author() {
     }
 
-    public Author(String firstNameOfAuthor, String lastNameOfAuthor) {
+    public Author(@NotNull String firstNameOfAuthor, @NotNull String lastNameOfAuthor, String middleNameOfAuthor) {
         this.firstNameOfAuthor = firstNameOfAuthor;
         this.lastNameOfAuthor = lastNameOfAuthor;
+        this.middleNameOfAuthor = middleNameOfAuthor;
     }
+
 
     public Long getIdOfAuthor() {
         return idOfAuthor;
@@ -78,5 +83,13 @@ public class Author {
 
     public void setFirstNameOfAuthor(String firstNameOfAuthor) {
         this.firstNameOfAuthor = firstNameOfAuthor;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "firstNameOfAuthor='" + firstNameOfAuthor + '\'' +
+                ", lastNameOfAuthor='" + lastNameOfAuthor + '\'' +
+                '}';
     }
 }

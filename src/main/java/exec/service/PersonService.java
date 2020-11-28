@@ -10,7 +10,7 @@ public interface PersonService {
 
     Person createPerson(Person person);
 
-    Person updatePerson(Person person);
+    Person updatePerson(Long id, Person newPerson);
 
     void deletePersonById(Long id);
 
@@ -18,11 +18,11 @@ public interface PersonService {
 
     List<Person> getPersons();
 
-    Person getPersonById(Long id);
+    Person getPersonById(Long id) throws Exception;
 
     List<Book> getBookForPerson(Long id);
 
-    Person addBookOnListBookForPerson(Book book);
+    Person addBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception;
 
-    Person deleteBookOnListBookForPerson(Book book);
+    Person deleteBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception;
 }

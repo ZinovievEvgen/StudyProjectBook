@@ -1,8 +1,9 @@
 package exec.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -13,17 +14,18 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long idOfPerson;
 
-    @Column(name = "firstNameOfPerson", nullable = false)
+    @NotNull
+    @Column(name = "firstNameOfPerson")
     private String firstNameOfPerson;
 
-    @Column(name = "lastNameOfPerson", nullable = false)
+    @NotNull
+    @Column(name = "lastNameOfPerson")
     private String lastNameOfPerson;
 
     @Column(name = "middleNameOfPerson")
@@ -33,21 +35,15 @@ public class Person implements Serializable {
     private LocalDate birthDateOfPerson;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Book> bookListOfPerson;
 
     public Person() {
     }
 
-    public Person(String firstNameOfPerson, String lastNameOfPerson) {
+    public Person(@NotNull String firstNameOfPerson, @NotNull String lastNameOfPerson) {
         this.firstNameOfPerson = firstNameOfPerson;
         this.lastNameOfPerson = lastNameOfPerson;
-    }
-
-    public Person(String firstNameOfPerson, String lastNameOfPerson, String middleNameOfPerson, LocalDate birthDateOfPerson) {
-        this.firstNameOfPerson = firstNameOfPerson;
-        this.lastNameOfPerson = lastNameOfPerson;
-        this.middleNameOfPerson = middleNameOfPerson;
-        this.birthDateOfPerson = birthDateOfPerson;
     }
 
     public Long getIdOfPerson() {
@@ -96,5 +92,13 @@ public class Person implements Serializable {
 
     public void setFirstNameOfPerson(String firstNameOfPerson) {
         this.firstNameOfPerson = firstNameOfPerson;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstNameOfPerson='" + firstNameOfPerson + '\'' +
+                ", lastNameOfPerson='" + lastNameOfPerson + '\'' +
+                '}';
     }
 }

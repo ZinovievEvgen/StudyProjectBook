@@ -3,6 +3,7 @@ package exec.service_impl;
 import exec.models.Author;
 import exec.models.Book;
 import exec.repository.AuthorRepository;
+import exec.repository.BookRepository;
 import exec.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,69 +12,52 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.System.out;
-
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
-    private AuthorRepository repository;
+    private AuthorRepository authorRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
-    public List<Author> getAllAuthor() {
-        return repository.findAll();
+    public Author createAuthor(Author author) {
+        return authorRepository.save(author);
     }
 
     @Override
-    public List<Book> getListOfBookForAuthor(Long id) {
-        //автор + книги + жанры
-        Optional<Author> currentAuthor = repository.findById(id);
-        if (currentAuthor.isPresent()) {
-            return currentAuthor.get().getBookListOfAuthor();
+    public List<Author> getAuthors() {
+        return authorRepository.findAll();
+    }
+
+    @Override
+    public List<Book> getBookForAuthors(Long id) {
+        //output: автор + книги + жанры
+        Optional<Author> currentPerson = authorRepository.findById(id);
+        if (currentPerson.isPresent()) {
+            return currentPerson.get().getBookListOfAuthor();
         } else return Collections.emptyList();
     }
 
     @Override
     public Author createAuthorWithBooks(Author author) {
-        // с книгами или беза, втор + книги
-        return null;
-    }
-
-    @Override
-    public Author updateAuthor(Long id, Author currentAuthor) {
-        return repository.findById(id).map(author -> {
-            author.setFirstNameOfAuthor(currentAuthor.getFirstNameOfAuthor());
-            author.setLastNameOfAuthor(currentAuthor.getLastNameOfAuthor());
-            author.setMiddleNameOfAuthor(currentAuthor.getMiddleNameOfAuthor());
-            author.setBookListOfAuthor(currentAuthor.getBookListOfAuthor());
-            return repository.save(author);
-        }).orElseGet(() -> {
-            currentAuthor.setIdOfAuthor(id);
-            return repository.save(currentAuthor);
+        //автор + книги
+        Author saveAuthor = authorRepository.save(author);
+        author.getBookListOfAuthor().stream().forEach(book -> {
+            book.setAuthorOfBook(saveAuthor);
+            bookRepository.save(book);
         });
-    }
-
-    @Override
-    public Author createAuthor(Author author) {
-        return repository.save(author);
+        return saveAuthor;
     }
 
     @Override
     public void deleteAuthorById(Long id) {
+        //если только нет книг, иначе кидать ошибку с пояснением, что нельзя удалить автора пока есть его книги)
         try {
-            repository.deleteById(id);
+            authorRepository.deleteById(id);
         } catch (Exception e) {
-            out.println("Автор содержит записи о книгах в БД!! " + e.getMessage());
-        }
-    }
-
-    @Override
-    public Author getAuthorById(Long id) {
-        Optional<Author> author = repository.findById(id);
-        if (author.isPresent()) {
-            return author.get();
-        } else {
-            return null;
+            System.out.println(e.getMessage());
         }
     }
 }

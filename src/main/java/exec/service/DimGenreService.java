@@ -8,13 +8,9 @@ import java.util.Map;
 
 public interface DimGenreService {
 
-    List<DimGenre> getAllDimGenre();
+    List<DimGenre> getAllGenreWithoutBook();
 
-    void createDimGenre(DimGenre dimGenre);
+    DimGenre createDimGenre(DimGenre dimGenre);
 
-    DimGenre updatePerson(DimGenre dimGenre);
-
-    DimGenre getDimGenreById(Long id);
-
-    Map<DimGenre, Integer> inputStatisticCountOfBookForGenre(List<DimGenre> dimGenreList);
+    Map<DimGenre, Long> inputStatisticCountOfBookForGenre();
 }

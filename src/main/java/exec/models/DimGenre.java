@@ -2,9 +2,11 @@ package exec.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,37 +15,48 @@ import java.util.List;
  */
 @Entity
 @Table(name = "dimGenre")
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class DimGenre {
+public class DimGenre implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private long idOfDimGenre;
+    private Long idOfDimGenre;
 
-    @Column(name = "genreName", nullable = false)
+    @NotNull
+    @Column(name = "genreName")
     private String genreName;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "bookGenreLnk",
             joinColumns = {@JoinColumn(name = "genre_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    @JsonBackReference
+    @JsonBackReference(value = "genre-book")
     private List<Book> books;
+
+    @Formula("(SELECT COUNT(*) FROM book_genre_lnk bg WHERE bg.genre_id = id_of_dim_genre GROUP BY id_of_dim_genre)")
+    private Long countOfBook;
 
     public DimGenre() {
     }
 
-    public DimGenre(String genreName) {
+    public DimGenre(@NotNull String genreName) {
         this.genreName = genreName;
     }
 
-    public long getIdOfDimGenre() {
+    public Long getIdOfDimGenre() {
         return idOfDimGenre;
     }
 
-    public void setIdOfDimGenre(long idOfDimGenre) {
+    public void setIdOfDimGenre(Long idOfDimGenre) {
         this.idOfDimGenre = idOfDimGenre;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public String getGenreName() {
@@ -54,11 +67,18 @@ public class DimGenre {
         this.genreName = genreName;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public Long getCountOfBook() {
+        return countOfBook;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setCountOfBook(Long countOfBook) {
+        this.countOfBook = countOfBook;
+    }
+
+    @Override
+    public String toString() {
+        return "DimGenre{" +
+                "genreName='" + genreName + '\'' +
+                '}';
     }
 }
