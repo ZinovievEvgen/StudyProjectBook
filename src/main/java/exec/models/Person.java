@@ -18,87 +18,87 @@ public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Long idOfPerson;
+    private Long id;
 
     @NotNull
-    @Column(name = "firstNameOfPerson")
-    private String firstNameOfPerson;
+    @Column(name = "first_name")
+    private String firstName;
 
     @NotNull
-    @Column(name = "lastNameOfPerson")
-    private String lastNameOfPerson;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Column(name = "middleNameOfPerson")
-    private String middleNameOfPerson;
+    @Column(name = "middle_name")
+    private String middleName;
 
-    @Column(name = "birthDateOfPerson")
-    private LocalDate birthDateOfPerson;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<Book> bookListOfPerson;
+    private List<Book> bookList;
 
     public Person() {
     }
 
-    public Person(@NotNull String firstNameOfPerson, @NotNull String lastNameOfPerson) {
-        this.firstNameOfPerson = firstNameOfPerson;
-        this.lastNameOfPerson = lastNameOfPerson;
+    public Person(@NotNull String firstName, @NotNull String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public Long getIdOfPerson() {
-        return idOfPerson;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdOfPerson(Long idOfPerson) {
-        this.idOfPerson = idOfPerson;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public List<Book> getBookListOfPerson() {
-        return bookListOfPerson;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setBookListOfPerson(List<Book> bookListOfPerson) {
-        this.bookListOfPerson = bookListOfPerson;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public LocalDate getBirthDateOfPerson() {
-        return birthDateOfPerson;
+    public List<Book> getBookList() {
+        return bookList;
     }
 
-    public void setBirthDateOfPerson(LocalDate birthDateOfPerson) {
-        this.birthDateOfPerson = birthDateOfPerson;
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
     }
 
-    public String getMiddleNameOfPerson() {
-        return middleNameOfPerson;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setMiddleNameOfPerson(String middleNameOfPerson) {
-        this.middleNameOfPerson = middleNameOfPerson;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getLastNameOfPerson() {
-        return lastNameOfPerson;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setLastNameOfPerson(String lastNameOfPerson) {
-        this.lastNameOfPerson = lastNameOfPerson;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getFirstNameOfPerson() {
-        return firstNameOfPerson;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setFirstNameOfPerson(String firstNameOfPerson) {
-        this.firstNameOfPerson = firstNameOfPerson;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "firstNameOfPerson='" + firstNameOfPerson + '\'' +
-                ", lastNameOfPerson='" + lastNameOfPerson + '\'' +
+                "firstNameOfPerson='" + firstName + '\'' +
+                ", lastNameOfPerson='" + lastName + '\'' +
                 '}';
     }
 }

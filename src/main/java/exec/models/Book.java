@@ -19,43 +19,43 @@ public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Long idOfBook;
+    private Long id;
 
     @NotNull
-    @Column(name = "nameOfBook")
-    private String nameOfBook;
+    @Column(name = "name")
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "bookGenreLnk",
+    @JoinTable(name = "book_genre_lnk",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<DimGenre> genres = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOfPerson")
+    @JoinColumn(name = "id_of_person")
     @JsonBackReference(value = "person-book")
     private Person person;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOfAuthor")
+    @JoinColumn(name = "id_of_author")
     @JsonBackReference(value = "author-book")
     private Author authorOfBook;
 
     public Book() {
     }
 
-    public Book(@NotNull Author authorOfBook, @NotNull String nameOfBook) {
+    public Book(@NotNull Author authorOfBook, @NotNull String name) {
         this.authorOfBook = authorOfBook;
-        this.nameOfBook = nameOfBook;
+        this.name = name;
     }
 
-    public Long getIdOfBook() {
-        return idOfBook;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdOfBook(Long idOfBook) {
-        this.idOfBook = idOfBook;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Author getAuthorOfBook() {
@@ -82,11 +82,11 @@ public class Book implements Serializable {
         this.genres = genres;
     }
 
-    public String getNameOfBook() {
-        return nameOfBook;
+    public String getName() {
+        return name;
     }
 
-    public void setNameOfBook(String nameOfBook) {
-        this.nameOfBook = nameOfBook;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -29,14 +29,14 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person updatePerson(Long id, Person newPerson) {
         return personRepository.findById(id).map(person -> {
-            person.setFirstNameOfPerson(newPerson.getFirstNameOfPerson());
-            person.setLastNameOfPerson(newPerson.getLastNameOfPerson());
-            person.setMiddleNameOfPerson(newPerson.getMiddleNameOfPerson());
-            person.setBirthDateOfPerson(newPerson.getBirthDateOfPerson());
-            person.setBookListOfPerson(newPerson.getBookListOfPerson());
+            person.setFirstName(newPerson.getFirstName());
+            person.setLastName(newPerson.getLastName());
+            person.setMiddleName(newPerson.getMiddleName());
+            person.setBirthDate(newPerson.getBirthDate());
+            person.setBookList(newPerson.getBookList());
             return personRepository.save(person);
         }).orElseGet(() -> {
-            newPerson.setIdOfPerson(id);
+            newPerson.setId(id);
             return personRepository.save(newPerson);
         });
     }
@@ -51,10 +51,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
+    public void deletePersonByFullName(String name, String surname, String middleName) {
         try {
-            Person delPerson = personRepository.findByFirstNameOfPersonAndLastNameOfPersonAndMiddleNameOfPerson(nameOfPerson,
-                    surnameOfPerson, middleNameOfPerson).orElseThrow(Exception::new);
+            Person delPerson = personRepository.findByFirstNameAndLastNameAndMiddleName(name,
+                    surname, middleName).orElseThrow(Exception::new);
             personRepository.delete(delPerson);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -76,7 +76,7 @@ public class PersonServiceImpl implements PersonService {
         //output: Книги - автор - жанр
         Optional<Person> currentPerson = personRepository.findById(id);
         if (currentPerson.isPresent()) {
-            return currentPerson.get().getBookListOfPerson();
+            return currentPerson.get().getBookList();
         } else return Collections.emptyList();
     }
 
@@ -84,11 +84,11 @@ public class PersonServiceImpl implements PersonService {
     public Person addBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception {
         //output: Пользователь + книги
         return personRepository.findById(idPerson).map(person -> {
-            Book currentBook = bookRepository.findByNameOfBook(nameOfBook);
-            List<Book> updateList = person.getBookListOfPerson();
+            Book currentBook = bookRepository.findByName(nameOfBook);
+            List<Book> updateList = person.getBookList();
             if (currentBook != null) {
                 updateList.add(currentBook);
-                person.setBookListOfPerson(updateList);
+                person.setBookList(updateList);
                 currentBook.setPerson(person);
                 bookRepository.saveAndFlush(currentBook);
             }
@@ -100,11 +100,11 @@ public class PersonServiceImpl implements PersonService {
     public Person deleteBookOnListBookForPerson(Long idPerson, String nameOfBook) throws Exception {
         // output: Пользователь + книги
         return personRepository.findById(idPerson).map(person -> {
-            Book currentBook = bookRepository.findByNameOfBook(nameOfBook);
-            List<Book> updateList = person.getBookListOfPerson();
+            Book currentBook = bookRepository.findByName(nameOfBook);
+            List<Book> updateList = person.getBookList();
             if (currentBook != null) {
                 updateList.remove(currentBook);
-                person.setBookListOfPerson(updateList);
+                person.setBookList(updateList);
                 currentBook.setPerson(person);
                 bookRepository.saveAndFlush(currentBook);
             }

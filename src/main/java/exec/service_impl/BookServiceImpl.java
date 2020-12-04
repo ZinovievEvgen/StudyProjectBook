@@ -45,13 +45,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book updateBook(Long id, Book newBook) {
         return bookRepository.findById(id).map(book -> {
-            book.setNameOfBook(newBook.getNameOfBook());
+            book.setName(newBook.getName());
             book.setPerson(newBook.getPerson());
             book.setAuthorOfBook(newBook.getAuthorOfBook());
             book.setGenres(newBook.getGenres());
             return bookRepository.save(book);
         }).orElseGet(() -> {
-            newBook.setIdOfBook(id);
+            newBook.setId(id);
             return bookRepository.save(newBook);
         });
     }
@@ -81,9 +81,9 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor) {
         return bookRepository.findAll().stream().filter(
-                book -> book.getAuthorOfBook().getFirstNameOfAuthor().equals(firstNameOfAuthor)
-                        && book.getAuthorOfBook().getLastNameOfAuthor().equals(lastNameOfAuthor)
-                        && book.getAuthorOfBook().getMiddleNameOfAuthor().equals(middleNameOfAuthor)
+                book -> book.getAuthorOfBook().getFirstName().equals(firstNameOfAuthor)
+                        && book.getAuthorOfBook().getLastName().equals(lastNameOfAuthor)
+                        && book.getAuthorOfBook().getMiddleName().equals(middleNameOfAuthor)
         ).collect(Collectors.toList());
     }
 
@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
             book.setGenres(currentBook.getGenres());
             return bookRepository.save(book);
         }).orElseGet(() -> {
-            currentBook.setIdOfBook(id);
+            currentBook.setId(id);
             return bookRepository.save(currentBook);
         });
     }

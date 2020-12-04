@@ -18,78 +18,78 @@ public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Long idOfAuthor;
+    private Long id;
 
     @NotNull
-    @Column(name = "firstNameOfAuthor")
-    private String firstNameOfAuthor;
+    @Column(name = "first_name")
+    private String firstName;
 
     @NotNull
-    @Column(name = "lastNameOfAuthor")
-    private String lastNameOfAuthor;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Column(name = "middleNameOfAuthor")
-    private String middleNameOfAuthor;
+    @Column(name = "middle_name")
+    private String middleName;
 
     @OneToMany(mappedBy = "authorOfBook", fetch = FetchType.LAZY)
     @JsonManagedReference(value = "author-book")
-    private List<Book> bookListOfAuthor;
+    private List<Book> bookList;
 
     public Author() {
     }
 
-    public Author(@NotNull String firstNameOfAuthor, @NotNull String lastNameOfAuthor, String middleNameOfAuthor) {
-        this.firstNameOfAuthor = firstNameOfAuthor;
-        this.lastNameOfAuthor = lastNameOfAuthor;
-        this.middleNameOfAuthor = middleNameOfAuthor;
+    public Author(@NotNull String firstName, @NotNull String lastName, String middleName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
     }
 
 
-    public Long getIdOfAuthor() {
-        return idOfAuthor;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdOfAuthor(Long idOfAuthor) {
-        this.idOfAuthor = idOfAuthor;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public List<Book> getBookListOfAuthor() {
-        return bookListOfAuthor;
+    public List<Book> getBookList() {
+        return bookList;
     }
 
-    public void setBookListOfAuthor(List<Book> bookListOfAuthor) {
-        this.bookListOfAuthor = bookListOfAuthor;
+    public void setBookList(List<Book> bookList) {
+        this.bookList = bookList;
     }
 
-    public String getMiddleNameOfAuthor() {
-        return middleNameOfAuthor;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddleNameOfAuthor(String middleNameOfAuthor) {
-        this.middleNameOfAuthor = middleNameOfAuthor;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getLastNameOfAuthor() {
-        return lastNameOfAuthor;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNameOfAuthor(String lastNameOfAuthor) {
-        this.lastNameOfAuthor = lastNameOfAuthor;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getFirstNameOfAuthor() {
-        return firstNameOfAuthor;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstNameOfAuthor(String firstNameOfAuthor) {
-        this.firstNameOfAuthor = firstNameOfAuthor;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     @Override
     public String toString() {
         return "Author{" +
-                "firstNameOfAuthor='" + firstNameOfAuthor + '\'' +
-                ", lastNameOfAuthor='" + lastNameOfAuthor + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 }

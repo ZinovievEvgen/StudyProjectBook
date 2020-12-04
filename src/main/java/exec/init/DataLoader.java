@@ -70,49 +70,49 @@ public class DataLoader implements CommandLineRunner {
         Author author5 = authorService.createAuthor(new Author("Лермонтов", "Михаил", "Федорович"));
 
         Book book1 = new Book();
-        book1.setNameOfBook("История одного прогера");
+        book1.setName("История одного прогера");
         book1.setGenres(list1);
         book1.setAuthorOfBook(author1);
         bookService.createBook(book1);
 
         Book book2 = new Book();
-        book2.setNameOfBook("Туда  и обратно мистер Дюк");
+        book2.setName("Туда  и обратно мистер Дюк");
         book2.setGenres(list2);
         book2.setAuthorOfBook(author2);
         bookService.createBook(book2);
 
 
         Book book3 = new Book();
-        book3.setNameOfBook("ЧТО ГДЕ КУДА! JUNIOR");
+        book3.setName("ЧТО ГДЕ КУДА! JUNIOR");
         book3.setGenres(list3);
         book3.setAuthorOfBook(author3);
         bookService.createBook(book3);
 
         Book book4 = new Book();
-        book4.setNameOfBook("Мцыри");
+        book4.setName("Мцыри");
         book4.setGenres(list3);
         book4.setAuthorOfBook(author5);
         bookService.createBook(book4);
 
         Person person1 = new Person();
-        person1.setFirstNameOfPerson("Иван");
-        person1.setLastNameOfPerson("Иванов");
-        person1.setMiddleNameOfPerson("Иванович");
-        person1.setBirthDateOfPerson(LocalDate.now());
+        person1.setFirstName("Иван");
+        person1.setLastName("Иванов");
+        person1.setMiddleName("Иванович");
+        person1.setBirthDate(LocalDate.now());
         personService.createPerson(person1);
 
         Person person2 = new Person();
-        person2.setFirstNameOfPerson("Семен");
-        person2.setLastNameOfPerson("Семенов");
-        person2.setMiddleNameOfPerson("Семенович");
-        person2.setBirthDateOfPerson(LocalDate.now());
+        person2.setFirstName("Семен");
+        person2.setLastName("Семенов");
+        person2.setMiddleName("Семенович");
+        person2.setBirthDate(LocalDate.now());
         personService.createPerson(person2);
 
         Person person3 = new Person();
-        person3.setFirstNameOfPerson("Петр");
-        person3.setLastNameOfPerson("Петров");
-        person3.setMiddleNameOfPerson("Петрович");
-        person3.setBirthDateOfPerson(LocalDate.now());
+        person3.setFirstName("Петр");
+        person3.setLastName("Петров");
+        person3.setMiddleName("Петрович");
+        person3.setBirthDate(LocalDate.now());
         personService.createPerson(person3);
     }
 }

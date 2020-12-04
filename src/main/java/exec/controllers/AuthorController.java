@@ -39,7 +39,7 @@ public class AuthorController {
     public Map<Author, List<Book>> createAuthorWithBooks(@RequestBody Author author) {
         Author currentAuthor = authorService.createAuthorWithBooks(author);
         Map<Author, List<Book>> resultMap = new HashMap<>();
-        resultMap.put(currentAuthor, currentAuthor.getBookListOfAuthor());
+        resultMap.put(currentAuthor, currentAuthor.getBookList());
         return resultMap;
     }
 

@@ -36,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
         //output: автор + книги + жанры
         Optional<Author> currentPerson = authorRepository.findById(id);
         if (currentPerson.isPresent()) {
-            return currentPerson.get().getBookListOfAuthor();
+            return currentPerson.get().getBookList();
         } else return Collections.emptyList();
     }
 
@@ -44,7 +44,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Author createAuthorWithBooks(Author author) {
         //автор + книги
         Author saveAuthor = authorRepository.save(author);
-        author.getBookListOfAuthor().stream().forEach(book -> {
+        author.getBookList().stream().forEach(book -> {
             book.setAuthorOfBook(saveAuthor);
             bookRepository.save(book);
         });

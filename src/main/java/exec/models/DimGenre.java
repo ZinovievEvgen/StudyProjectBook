@@ -14,20 +14,20 @@ import java.util.List;
  * класс-DimGenre: содержит информацию о жанрах книг
  */
 @Entity
-@Table(name = "dimGenre")
+@Table(name = "dim_genre")
 public class DimGenre implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Long idOfDimGenre;
+    private Long id;
 
     @NotNull
-    @Column(name = "genreName")
+    @Column(name = "genre_name")
     private String genreName;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "bookGenreLnk",
+    @JoinTable(name = "book_genre_lnk",
             joinColumns = {@JoinColumn(name = "genre_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     @JsonBackReference(value = "genre-book")
@@ -39,16 +39,20 @@ public class DimGenre implements Serializable {
     public DimGenre() {
     }
 
-    public DimGenre(@NotNull String genreName) {
-        this.genreName = genreName;
+    public Long getId() {
+        return id;
     }
 
-    public Long getIdOfDimGenre() {
-        return idOfDimGenre;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setIdOfDimGenre(Long idOfDimGenre) {
-        this.idOfDimGenre = idOfDimGenre;
+    public Long getCountOfBook() {
+        return countOfBook;
+    }
+
+    public void setCountOfBook(Long countOfBook) {
+        this.countOfBook = countOfBook;
     }
 
     public List<Book> getBooks() {
@@ -65,14 +69,6 @@ public class DimGenre implements Serializable {
 
     public void setGenreName(String genreName) {
         this.genreName = genreName;
-    }
-
-    public Long getCountOfBook() {
-        return countOfBook;
-    }
-
-    public void setCountOfBook(Long countOfBook) {
-        this.countOfBook = countOfBook;
     }
 
     @Override

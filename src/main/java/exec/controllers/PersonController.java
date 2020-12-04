@@ -73,7 +73,7 @@ public class PersonController {
     public Map<Person, List<Book>> addBookOnListBookForPerson(@PathVariable Long id, @RequestParam(value = "name") String nameOfBook) throws Exception {
         Person currentPerson = personService.addBookOnListBookForPerson(id, nameOfBook);
         Map<Person, List<Book>> resultMap = new HashMap<>();
-        resultMap.put(currentPerson, currentPerson.getBookListOfPerson());
+        resultMap.put(currentPerson, currentPerson.getBookList());
         return resultMap;
     }
 
@@ -81,7 +81,7 @@ public class PersonController {
     public Map<Person, List<Book>> deleteBookOnListBookForPerson(@PathVariable Long id, @RequestParam(value = "name") String nameOfBook) throws Exception {
         Person currentPerson = personService.deleteBookOnListBookForPerson(id, nameOfBook);
         Map<Person, List<Book>> resultMap = new HashMap<>();
-        resultMap.put(currentPerson, currentPerson.getBookListOfPerson());
+        resultMap.put(currentPerson, currentPerson.getBookList());
         return resultMap;
     }
 }

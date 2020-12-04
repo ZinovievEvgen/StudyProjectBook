@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="50" author="saidHazzard" dbms="postgresql">
+        <createSequence
+                cycle="false"
+                incrementBy="2"
+                maxValue="10000"
+                schemaName="libra"
+                sequenceName="hibernate_sequence"
+                startValue="10"/>
+
+        <sqlFile dbms="postgresql"
+                 encoding="UTF-8"
+                 endDelimiter="\nGO"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 stripComments="true"
+                 path="50-create-axon-tables.sql"/>
+    </changeSet>
+</databaseChangeLog>
