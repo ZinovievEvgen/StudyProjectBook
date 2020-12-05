@@ -3,10 +3,12 @@ package exec.repository;
 
 import exec.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
-    Optional<Person> findByFirstNameOfPersonAndLastNameOfPersonAndMiddleNameOfPerson(String nameOfPerson, String lastNameOfPerson, String middleNameOfPerson);
+    Optional<Person> findByFirstNameAndLastNameAndMiddleName(String name, String lastName, String middleName);
 }

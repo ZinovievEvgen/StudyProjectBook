@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -18,25 +19,32 @@ import java.util.Map;
 public class PersonController {
 
     @Autowired
-    private PersonService personService;
+    private final PersonService personService;
+
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
+    private Logger log = Logger.getLogger(PersonController.class.getName());
 
     @PostMapping("/create")
     public Person createPerson(@RequestBody Person person) {
         return personService.createPerson(person);
     }
 
-    @PutMapping("/update/{id}")
-    public Person updatePerson(@PathVariable Long id, @RequestBody Person newPerson) {
-        return personService.updatePerson(id, newPerson);
+    @PutMapping("/update")
+    public Person updatePerson(@RequestBody Person newPerson) {
+        return personService.updatePerson(newPerson);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deletePersonById(@PathVariable Long id) {
         try {
             personService.deletePersonById(id);
+            log.info("Person (id = " + id + ") was deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
@@ -47,9 +55,10 @@ public class PersonController {
                                                  @RequestParam(value = "middle") String middleNameOfPerson) {
         try {
             personService.deletePersonByFullName(nameOfPerson, lastOfPerson, middleNameOfPerson);
+            log.info("Person was deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }

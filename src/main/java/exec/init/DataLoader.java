@@ -95,24 +95,24 @@ public class DataLoader implements CommandLineRunner {
         bookService.createBook(book4);
 
         Person person1 = new Person();
-        person1.setFirstNameOfPerson("Иван");
-        person1.setLastNameOfPerson("Иванов");
-        person1.setMiddleNameOfPerson("Иванович");
-        person1.setBirthDateOfPerson(LocalDate.now());
+        person1.setFirstName("Иван");
+        person1.setLastName("Иванов");
+        person1.setMiddleName("Иванович");
+        person1.setBirthDate(LocalDate.now());
         personService.createPerson(person1);
 
         Person person2 = new Person();
-        person2.setFirstNameOfPerson("Семен");
-        person2.setLastNameOfPerson("Семенов");
-        person2.setMiddleNameOfPerson("Семенович");
-        person2.setBirthDateOfPerson(LocalDate.now());
+        person2.setFirstName("Семен");
+        person2.setLastName("Семенов");
+        person2.setMiddleName("Семенович");
+        person2.setBirthDate(LocalDate.now());
         personService.createPerson(person2);
 
         Person person3 = new Person();
-        person3.setFirstNameOfPerson("Петр");
-        person3.setLastNameOfPerson("Петров");
-        person3.setMiddleNameOfPerson("Петрович");
-        person3.setBirthDateOfPerson(LocalDate.now());
+        person3.setFirstName("Петр");
+        person3.setLastName("Петров");
+        person3.setMiddleName("Петрович");
+        person3.setBirthDate(LocalDate.now());
         personService.createPerson(person3);
     }
 }

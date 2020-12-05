@@ -8,9 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -18,7 +17,13 @@ import java.util.Map;
 public class AuthorController {
 
     @Autowired
-    private AuthorService authorService;
+    private final AuthorService authorService;
+
+    private Logger log = Logger.getLogger(AuthorController.class.getName());
+
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
     @PostMapping("/create")
     public Author createAuthor(@RequestBody Author author) {
@@ -36,20 +41,18 @@ public class AuthorController {
     }
 
     @PostMapping("/create-with-book")
-    public Map<Author, List<Book>> createAuthorWithBooks(@RequestBody Author author) {
-        Author currentAuthor = authorService.createAuthorWithBooks(author);
-        Map<Author, List<Book>> resultMap = new HashMap<>();
-        resultMap.put(currentAuthor, currentAuthor.getBookListOfAuthor());
-        return resultMap;
+    public Author createAuthorWithBooks(@RequestBody Author author) {
+        return authorService.createAuthorWithBooks(author);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteAuthorById(@PathVariable Long id) {
         try {
             authorService.deleteAuthorById(id);
+            log.info("Author (id = " + id + ") was deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }

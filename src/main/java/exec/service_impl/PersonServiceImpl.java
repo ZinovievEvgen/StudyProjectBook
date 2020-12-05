@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -21,22 +22,24 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     private BookRepository bookRepository;
 
+    private Logger log = Logger.getLogger(PersonServiceImpl.class.getName());
+
     @Override
     public Person createPerson(Person person) {
         return personRepository.save(person);
     }
 
     @Override
-    public Person updatePerson(Long id, Person newPerson) {
-        return personRepository.findById(id).map(person -> {
-            person.setFirstNameOfPerson(newPerson.getFirstNameOfPerson());
-            person.setLastNameOfPerson(newPerson.getLastNameOfPerson());
-            person.setMiddleNameOfPerson(newPerson.getMiddleNameOfPerson());
-            person.setBirthDateOfPerson(newPerson.getBirthDateOfPerson());
+    public Person updatePerson(Person newPerson) {
+        return personRepository.findById(newPerson.getIdOfPerson()).map(person -> {
+            person.setFirstName(newPerson.getFirstName());
+            person.setLastName(newPerson.getLastName());
+            person.setMiddleName(newPerson.getMiddleName());
+            person.setBirthDate(newPerson.getBirthDate());
             person.setBookListOfPerson(newPerson.getBookListOfPerson());
             return personRepository.save(person);
         }).orElseGet(() -> {
-            newPerson.setIdOfPerson(id);
+            newPerson.setIdOfPerson(newPerson.getIdOfPerson());
             return personRepository.save(newPerson);
         });
     }
@@ -45,19 +48,21 @@ public class PersonServiceImpl implements PersonService {
     public void deletePersonById(Long id) {
         try {
             personRepository.deleteById(id);
+            log.info("Person (id = " + id + ") was deleted");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
         }
     }
 
     @Override
     public void deletePersonByFullName(String nameOfPerson, String surnameOfPerson, String middleNameOfPerson) {
         try {
-            Person delPerson = personRepository.findByFirstNameOfPersonAndLastNameOfPersonAndMiddleNameOfPerson(nameOfPerson,
+            Person delPerson = personRepository.findByFirstNameAndLastNameAndMiddleName(nameOfPerson,
                     surnameOfPerson, middleNameOfPerson).orElseThrow(Exception::new);
             personRepository.delete(delPerson);
+            log.info("Person was deleted");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
         }
     }
 
@@ -77,7 +82,9 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> currentPerson = personRepository.findById(id);
         if (currentPerson.isPresent()) {
             return currentPerson.get().getBookListOfPerson();
-        } else return Collections.emptyList();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override

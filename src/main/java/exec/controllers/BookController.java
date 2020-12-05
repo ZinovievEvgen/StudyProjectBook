@@ -1,6 +1,5 @@
 package exec.controllers;
 
-import exec.models.Author;
 import exec.models.Book;
 import exec.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -16,7 +16,13 @@ import java.util.List;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private final BookService bookService;
+
+    private Logger log = Logger.getLogger(BookController.class.getName());
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @PostMapping("/create")
     public Book createBook(@RequestBody Book book) {
@@ -44,9 +50,10 @@ public class BookController {
     public ResponseEntity deleteBookById(@PathVariable Long id) {
         try {
             bookService.deleteBookById(id);
+            log.info("Book (id = " + id + ") was deleted");
             return ResponseEntity.status(HttpStatus.OK).build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
@@ -57,14 +64,14 @@ public class BookController {
     }
 
     @GetMapping("/get-book-for-author")
-    public List<Book> getAllBooksForAuthor(@RequestParam(value = "first") String firstNameOfAuthor,
-                                           @RequestParam(value = "last") String lastNameOfAuthor,
-                                           @RequestParam(value = "middle") String middleNameOfAuthor) {
-        return bookService.getAllBooksForAuthor(firstNameOfAuthor, lastNameOfAuthor, middleNameOfAuthor);
+    public List<Book> getAllBooksForAuthor(@RequestParam(value = "first") String firstName,
+                                           @RequestParam(value = "last") String lastName,
+                                           @RequestParam(value = "middle") String middleName) {
+        return bookService.getAllBooksForAuthor(firstName, lastName, middleName);
     }
 
-    @PutMapping("/update-genre/{id}")
-    public Book updateGenreForBook(@PathVariable Long id, @RequestBody Book currentBook) {
-        return bookService.updateGenreForBook(id, currentBook);
+    @PutMapping("/update-genre")
+    public Book updateGenreForBook(@RequestBody Book currentBook) {
+        return bookService.updateGenreForBook(currentBook);
     }
 }

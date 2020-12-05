@@ -21,18 +21,18 @@ public class Person implements Serializable {
     private Long idOfPerson;
 
     @NotNull
-    @Column(name = "firstNameOfPerson")
-    private String firstNameOfPerson;
+    @Column(name = "first_name")
+    private String firstName;
 
     @NotNull
-    @Column(name = "lastNameOfPerson")
-    private String lastNameOfPerson;
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Column(name = "middleNameOfPerson")
-    private String middleNameOfPerson;
+    @Column(name = "middle_name")
+    private String middleName;
 
-    @Column(name = "birthDateOfPerson")
-    private LocalDate birthDateOfPerson;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
     @JsonBackReference
@@ -41,17 +41,9 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(@NotNull String firstNameOfPerson, @NotNull String lastNameOfPerson) {
-        this.firstNameOfPerson = firstNameOfPerson;
-        this.lastNameOfPerson = lastNameOfPerson;
-    }
-
-    public Long getIdOfPerson() {
-        return idOfPerson;
-    }
-
-    public void setIdOfPerson(Long idOfPerson) {
-        this.idOfPerson = idOfPerson;
+    public Person(@NotNull String firstName, @NotNull String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public List<Book> getBookListOfPerson() {
@@ -62,43 +54,51 @@ public class Person implements Serializable {
         this.bookListOfPerson = bookListOfPerson;
     }
 
-    public LocalDate getBirthDateOfPerson() {
-        return birthDateOfPerson;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthDateOfPerson(LocalDate birthDateOfPerson) {
-        this.birthDateOfPerson = birthDateOfPerson;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public String getMiddleNameOfPerson() {
-        return middleNameOfPerson;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddleNameOfPerson(String middleNameOfPerson) {
-        this.middleNameOfPerson = middleNameOfPerson;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
-    public String getLastNameOfPerson() {
-        return lastNameOfPerson;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastNameOfPerson(String lastNameOfPerson) {
-        this.lastNameOfPerson = lastNameOfPerson;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getFirstNameOfPerson() {
-        return firstNameOfPerson;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstNameOfPerson(String firstNameOfPerson) {
-        this.firstNameOfPerson = firstNameOfPerson;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public Long getIdOfPerson() {
+        return idOfPerson;
+    }
+
+    public void setIdOfPerson(Long idOfPerson) {
+        this.idOfPerson = idOfPerson;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "firstNameOfPerson='" + firstNameOfPerson + '\'' +
-                ", lastNameOfPerson='" + lastNameOfPerson + '\'' +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 }

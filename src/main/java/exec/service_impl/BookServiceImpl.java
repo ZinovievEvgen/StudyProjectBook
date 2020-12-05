@@ -9,9 +9,9 @@ import exec.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +25,8 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    private Logger log = Logger.getLogger(BookServiceImpl.class.getName());
 
     @Override
     public Book createBook(Book book) {
@@ -65,36 +67,37 @@ public class BookServiceImpl implements BookService {
     public void deleteBookById(Long id) {
         try {
             bookRepository.deleteById(id);
+            log.info("Book (id = " + id + ") was deleted");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
         }
     }
 
     @Override
     public List<Book> bookForGenre(String nameOfGenre) {
         return bookRepository.findAll().stream().peek(
-                        book -> book.getGenres()
-                                .stream().filter(dimGenre -> nameOfGenre.equals(dimGenre.getGenreName())))
-        .collect(Collectors.toList());
+                book -> book.getGenres()
+                        .stream().filter(dimGenre -> nameOfGenre.equals(dimGenre.getGenreName())))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor) {
         return bookRepository.findAll().stream().filter(
-                book -> book.getAuthorOfBook().getFirstNameOfAuthor().equals(firstNameOfAuthor)
-                        && book.getAuthorOfBook().getLastNameOfAuthor().equals(lastNameOfAuthor)
-                        && book.getAuthorOfBook().getMiddleNameOfAuthor().equals(middleNameOfAuthor)
+                book -> book.getAuthorOfBook().getFirstName().equals(firstNameOfAuthor)
+                        && book.getAuthorOfBook().getLastName().equals(lastNameOfAuthor)
+                        && book.getAuthorOfBook().getMiddleName().equals(middleNameOfAuthor)
         ).collect(Collectors.toList());
     }
 
     @Override
-    public Book updateGenreForBook(Long id, Book currentBook) {
+    public Book updateGenreForBook(Book currentBook) {
         //Книга + жанр + автор
-        return bookRepository.findById(id).map(book -> {
+        return bookRepository.findById(currentBook.getIdOfBook()).map(book -> {
             book.setGenres(currentBook.getGenres());
             return bookRepository.save(book);
         }).orElseGet(() -> {
-            currentBook.setIdOfBook(id);
+            currentBook.setIdOfBook(currentBook.getIdOfBook());
             return bookRepository.save(currentBook);
         });
     }

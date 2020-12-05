@@ -22,23 +22,23 @@ public class Book implements Serializable {
     private Long idOfBook;
 
     @NotNull
-    @Column(name = "nameOfBook")
+    @Column(name = "name_of_book")
     private String nameOfBook;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "bookGenreLnk",
+    @JoinTable(name = "book_genre_lnk",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<DimGenre> genres = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOfPerson")
+    @JoinColumn(name = "id_of_person")
     @JsonBackReference(value = "person-book")
     private Person person;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idOfAuthor")
+    @JoinColumn(name = "id_of_author")
     @JsonBackReference(value = "author-book")
     private Author authorOfBook;
 

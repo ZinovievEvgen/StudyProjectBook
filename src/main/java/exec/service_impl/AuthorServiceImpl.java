@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -20,6 +21,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    private Logger log = Logger.getLogger(AuthorServiceImpl.class.getName());
 
     @Override
     public Author createAuthor(Author author) {
@@ -37,7 +40,9 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> currentPerson = authorRepository.findById(id);
         if (currentPerson.isPresent()) {
             return currentPerson.get().getBookListOfAuthor();
-        } else return Collections.emptyList();
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -56,8 +61,9 @@ public class AuthorServiceImpl implements AuthorService {
         //если только нет книг, иначе кидать ошибку с пояснением, что нельзя удалить автора пока есть его книги)
         try {
             authorRepository.deleteById(id);
+            log.info("Author (id = " + id + ") was deleted");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.warning(e.getMessage());
         }
     }
 }

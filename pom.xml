@@ -16,8 +16,15 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <hibernate.version>5.4.15.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
+        <hibernate-manager.version>5.4.24.Final</hibernate-manager.version>
         <swagger.version>3.0.0</swagger.version>
+        <springfox.version>3.0.0</springfox.version>
+        <axon.version>3.4</axon.version>
+        <hibernate-jpamodelgen.version>5.4.10.Final</hibernate-jpamodelgen.version>
+        <jackson-databind.version>2.11.1</jackson-databind.version>
+        <jackson-datatype.version>2.9.0</jackson-datatype.version>
+        <lombok.version>1.18.16</lombok.version>
     </properties>
 
     <dependencies>
@@ -53,7 +60,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
-            <version>2.3.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -62,7 +68,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -78,40 +84,40 @@
         <dependency>
             <groupId>org.axonframework</groupId>
             <artifactId>axon-spring-boot-starter</artifactId>
-            <version>3.4</version>
+            <version>${axon.version}</version>
         </dependency>
         <!-- spring-data-jpa, spring-orm and Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.24.Final</version>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
-            <version>5.4.10.Final</version>
+            <version>${hibernate-jpamodelgen.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.4.24.Final</version>
+            <version>${hibernate-manager.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.16</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.11.1</version>
+            <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.0</version>
+            <version>${jackson-datatype.version}</version>
         </dependency>
     </dependencies>
 

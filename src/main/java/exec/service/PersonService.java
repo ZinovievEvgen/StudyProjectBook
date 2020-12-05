@@ -10,7 +10,7 @@ public interface PersonService {
 
     Person createPerson(Person person);
 
-    Person updatePerson(Long id, Person newPerson);
+    Person updatePerson(Person newPerson);
 
     void deletePersonById(Long id);
 

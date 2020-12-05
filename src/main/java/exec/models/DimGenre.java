@@ -14,7 +14,7 @@ import java.util.List;
  * класс-DimGenre: содержит информацию о жанрах книг
  */
 @Entity
-@Table(name = "dimGenre")
+@Table(name = "dim_genre")
 public class DimGenre implements Serializable {
 
     @Id
@@ -23,11 +23,11 @@ public class DimGenre implements Serializable {
     private Long idOfDimGenre;
 
     @NotNull
-    @Column(name = "genreName")
+    @Column(name = "genre_name")
     private String genreName;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "bookGenreLnk",
+    @JoinTable(name = "book_genre_lnk",
             joinColumns = {@JoinColumn(name = "genre_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     @JsonBackReference(value = "genre-book")

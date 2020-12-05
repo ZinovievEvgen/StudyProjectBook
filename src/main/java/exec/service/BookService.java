@@ -22,5 +22,5 @@ public interface BookService {
 
     List<Book> getAllBooksForAuthor(String firstNameOfAuthor, String lastNameOfAuthor, String middleNameOfAuthor);
 
-    Book updateGenreForBook(Long id, Book currentBook);
+    Book updateGenreForBook(Book currentBook);
 }

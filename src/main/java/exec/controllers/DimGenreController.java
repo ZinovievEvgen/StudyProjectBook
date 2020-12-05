@@ -14,7 +14,11 @@ import java.util.Map;
 public class DimGenreController {
 
     @Autowired
-    private DimGenreService dimGenreService;
+    private final DimGenreService dimGenreService;
+
+    public DimGenreController(DimGenreService dimGenreService) {
+        this.dimGenreService = dimGenreService;
+    }
 
     @GetMapping("/allGenres")
     public List<DimGenre> getAllGenreWithoutBook() {
