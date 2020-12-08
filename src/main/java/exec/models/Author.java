@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "author")
-public class Author implements Serializable {
+public class Author extends BaseEntityAudit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -27,6 +29,9 @@ public class Author implements Serializable {
     @NotNull
     @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "birth_date")
+    private LocalDateTime birthDate;
 
     @Column(name = "middle_name")
     private String middleName;
@@ -83,6 +88,14 @@ public class Author implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public LocalDateTime getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDateTime birthDate) {
+        this.birthDate = birthDate;
     }
 
     @Override

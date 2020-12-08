@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "dim_genre")
-public class DimGenre implements Serializable {
+public class DimGenre extends BaseEntityAudit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -26,14 +26,14 @@ public class DimGenre implements Serializable {
     @Column(name = "genre_name")
     private String genreName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "book_genre_lnk",
             joinColumns = {@JoinColumn(name = "genre_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")})
     @JsonBackReference(value = "genre-book")
     private List<Book> books;
 
-    @Formula("(SELECT COUNT(*) FROM book_genre_lnk bg WHERE bg.genre_id = id_of_dim_genre GROUP BY id_of_dim_genre)")
+    @Formula("(SELECT COUNT(*) FROM book_genre_lnk bg WHERE bg.genre_id = id GROUP BY id)")
     private Long countOfBook;
 
     public DimGenre() {

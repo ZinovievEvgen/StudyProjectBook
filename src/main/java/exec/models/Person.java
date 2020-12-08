@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "person")
-public class Person implements Serializable {
+public class Person extends BaseEntityAudit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
@@ -34,9 +34,9 @@ public class Person implements Serializable {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person")
     @JsonBackReference
-    private List<Book> bookList;
+    private List<LibraryCard> libraryCards;
 
     public Person() {
     }
@@ -62,14 +62,6 @@ public class Person implements Serializable {
         this.firstName = firstName;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
-    }
-
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
-    }
-
     public LocalDate getBirthDate() {
         return birthDate;
     }
@@ -92,6 +84,14 @@ public class Person implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<LibraryCard> getLibraryCards() {
+        return libraryCards;
+    }
+
+    public void setLibraryCards(List<LibraryCard> libraryCards) {
+        this.libraryCards = libraryCards;
     }
 
     @Override

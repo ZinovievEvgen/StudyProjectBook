@@ -46,7 +46,6 @@ public class BookServiceImpl implements BookService {
     public Book updateBook(Long id, Book newBook) {
         return bookRepository.findById(id).map(book -> {
             book.setName(newBook.getName());
-            book.setPerson(newBook.getPerson());
             book.setAuthorOfBook(newBook.getAuthorOfBook());
             book.setGenres(newBook.getGenres());
             return bookRepository.save(book);
