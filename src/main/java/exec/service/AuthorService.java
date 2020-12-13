@@ -1,6 +1,7 @@
 package exec.service;
 
 
+import exec.exception.NotFoundEntityException;
 import exec.models.Author;
 import exec.models.Book;
 
@@ -12,9 +13,9 @@ public interface AuthorService {
 
     List<Author> getAuthors();
 
-    List<Book> getBookForAuthors(Long id);
+    List<Book> getBookForAuthors(Long id) throws Exception;
 
     Author createAuthorWithBooks(Author author);
 
-    void deleteAuthorById(Long id);
+    void deleteAuthorById(Long id) throws NotFoundEntityException;
 }

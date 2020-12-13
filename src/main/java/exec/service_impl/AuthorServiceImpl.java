@@ -1,5 +1,6 @@
 package exec.service_impl;
 
+import exec.exception.NotFoundEntityException;
 import exec.models.Author;
 import exec.models.Book;
 import exec.repository.AuthorRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -35,14 +35,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public List<Book> getBookForAuthors(Long id) {
-        //output: автор + книги + жанры
-        Optional<Author> currentPerson = authorRepository.findById(id);
-        if (currentPerson.isPresent()) {
-            return currentPerson.get().getBookListOfAuthor();
-        } else {
-            return Collections.emptyList();
-        }
+    public List<Book> getBookForAuthors(Long id) throws Exception {
+        Author currentPerson = authorRepository.findById(id).orElseThrow(Exception::new);
+        return currentPerson.getBookListOfAuthor();
     }
 
     @Override
@@ -57,13 +52,15 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void deleteAuthorById(Long id) {
+    public void deleteAuthorById(Long id) throws NotFoundEntityException {
         //если только нет книг, иначе кидать ошибку с пояснением, что нельзя удалить автора пока есть его книги)
         try {
             authorRepository.deleteById(id);
             log.info("Author (id = " + id + ") was deleted");
         } catch (Exception e) {
-            log.warning(e.getMessage());
+            log.warning("Could not find client with ID " + id);
+            throw new NotFoundEntityException(
+                    "Could not find client with ID " + id);
         }
     }
 }
