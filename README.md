@@ -1,2 +1,2 @@
-# StudyProjectBySBS
+# StudyProjectBook
 study project for education
